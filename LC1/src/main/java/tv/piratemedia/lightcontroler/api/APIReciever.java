@@ -113,38 +113,38 @@ public class APIReciever extends BroadcastReceiver {
                     cancelCurrentTasks();
                     switch (intent.getIntExtra("zone", -1)) {
                         case 0:
-                            c.LightsOn(0);
+                            c.lightsOn(0);
                             break;
                         case 1:
-                            c.LightsOn(1);
+                            c.lightsOn(1);
                             break;
                         case 2:
-                            c.LightsOn(2);
+                            c.lightsOn(2);
                             break;
                         case 3:
-                            c.LightsOn(3);
+                            c.lightsOn(3);
                             break;
                         case 4:
-                            c.LightsOn(4);
+                            c.lightsOn(4);
                             break;
                     }
                 } else if (intent.getStringExtra("type").equals(TYPE_WHITE)) {
                     cancelCurrentTasks();
                     switch (intent.getIntExtra("zone", -1)) {
                         case 0:
-                            c.LightsOn(9);
+                            c.lightsOn(9);
                             break;
                         case 1:
-                            c.LightsOn(5);
+                            c.lightsOn(5);
                             break;
                         case 2:
-                            c.LightsOn(6);
+                            c.lightsOn(6);
                             break;
                         case 3:
-                            c.LightsOn(7);
+                            c.lightsOn(7);
                             break;
                         case 4:
-                            c.LightsOn(8);
+                            c.lightsOn(8);
                             break;
                     }
                 }
@@ -154,38 +154,38 @@ public class APIReciever extends BroadcastReceiver {
                     cancelCurrentTasks();
                     switch (intent.getIntExtra("zone", -1)) {
                         case 0:
-                            c.LightsOff(0);
+                            c.lightsOff(0);
                             break;
                         case 1:
-                            c.LightsOff(1);
+                            c.lightsOff(1);
                             break;
                         case 2:
-                            c.LightsOff(2);
+                            c.lightsOff(2);
                             break;
                         case 3:
-                            c.LightsOff(3);
+                            c.lightsOff(3);
                             break;
                         case 4:
-                            c.LightsOff(4);
+                            c.lightsOff(4);
                             break;
                     }
                 } else if (intent.getStringExtra("type").equals(TYPE_WHITE)) {
                     cancelCurrentTasks();
                     switch (intent.getIntExtra("zone", -1)) {
                         case 0:
-                            c.LightsOff(9);
+                            c.lightsOff(9);
                             break;
                         case 1:
-                            c.LightsOff(5);
+                            c.lightsOff(5);
                             break;
                         case 2:
-                            c.LightsOff(6);
+                            c.lightsOff(6);
                             break;
                         case 3:
-                            c.LightsOff(7);
+                            c.lightsOff(7);
                             break;
                         case 4:
-                            c.LightsOff(8);
+                            c.lightsOff(8);
                             break;
                     }
                 }
@@ -209,22 +209,22 @@ public class APIReciever extends BroadcastReceiver {
                         cancelCurrentTasks();
                         switch (zone) {
                             case 0:
-                                c.LightsOn(0);
+                                c.lightsOn(0);
                                 break;
                             case 1:
-                                c.LightsOn(1);
+                                c.lightsOn(1);
                                 break;
                             case 2:
-                                c.LightsOn(2);
+                                c.lightsOn(2);
                                 break;
                             case 3:
-                                c.LightsOn(3);
+                                c.lightsOn(3);
                                 break;
                             case 4:
-                                c.LightsOn(4);
+                                c.lightsOn(4);
                                 break;
                         }
-                        c.setToWhite(zone);
+                        c.turnOnWhite(zone);
                     }
                 } else {
                     int zone = intent.getIntExtra("zone", -1);
@@ -232,19 +232,19 @@ public class APIReciever extends BroadcastReceiver {
                         cancelCurrentTasks();
                         switch (zone) {
                             case 0:
-                                c.LightsOn(9);
+                                c.lightsOn(9);
                                 break;
                             case 1:
-                                c.LightsOn(5);
+                                c.lightsOn(5);
                                 break;
                             case 2:
-                                c.LightsOn(6);
+                                c.lightsOn(6);
                                 break;
                             case 3:
-                                c.LightsOn(7);
+                                c.lightsOn(7);
                                 break;
                             case 4:
-                                c.LightsOn(8);
+                                c.lightsOn(8);
                                 break;
                         }
                         c.setToFull(zone);
@@ -259,7 +259,7 @@ public class APIReciever extends BroadcastReceiver {
                     int zone = intent.getIntExtra("zone", -1);
                     int duration = intent.getIntExtra("duration", -1);
                     if(duration <= 900 && duration > -1) {
-                        c.setToWhite(zone);
+                        c.turnOnWhite(zone);
                         c.setBrightness(zone, 0);
                     }
                     FadeLights(zone, TYPE_COLOR, true, duration, context);
@@ -269,19 +269,19 @@ public class APIReciever extends BroadcastReceiver {
                     if(duration <= 900 && duration > 30) {
                         switch (zone) {
                             case 0:
-                                c.LightsOn(9);
+                                c.lightsOn(9);
                                 break;
                             case 1:
-                                c.LightsOn(5);
+                                c.lightsOn(5);
                                 break;
                             case 2:
-                                c.LightsOn(6);
+                                c.lightsOn(6);
                                 break;
                             case 3:
-                                c.LightsOn(7);
+                                c.lightsOn(7);
                                 break;
                             case 4:
-                                c.LightsOn(8);
+                                c.lightsOn(8);
                                 break;
                         }
                         for(int i = 0; i < 10; i++) {
@@ -304,7 +304,7 @@ public class APIReciever extends BroadcastReceiver {
                     int zone = intent.getIntExtra("zone", -1);
                     int duration = intent.getIntExtra("duration", -1);
                     if(duration <= 900 && duration > -1) {
-                        c.setToWhite(zone);
+                        c.turnOnWhite(zone);
                         c.setBrightness(zone, 19);
                     }
                     FadeLights(zone, TYPE_COLOR, true, duration, context);
@@ -314,19 +314,19 @@ public class APIReciever extends BroadcastReceiver {
                     if(duration <= 900 && duration > 30) {
                         switch (zone) {
                             case 0:
-                                c.LightsOn(9);
+                                c.lightsOn(9);
                                 break;
                             case 1:
-                                c.LightsOn(5);
+                                c.lightsOn(5);
                                 break;
                             case 2:
-                                c.LightsOn(6);
+                                c.lightsOn(6);
                                 break;
                             case 3:
-                                c.LightsOn(7);
+                                c.lightsOn(7);
                                 break;
                             case 4:
-                                c.LightsOn(8);
+                                c.lightsOn(8);
                                 break;
                         }
                         c.setToFull(zone);
@@ -372,19 +372,19 @@ public class APIReciever extends BroadcastReceiver {
                     } else {
                         switch (Zone) {
                             case 0:
-                                c.LightsOn(9);
+                                c.lightsOn(9);
                                 break;
                             case 1:
-                                c.LightsOn(5);
+                                c.lightsOn(5);
                                 break;
                             case 2:
-                                c.LightsOn(6);
+                                c.lightsOn(6);
                                 break;
                             case 3:
-                                c.LightsOn(7);
+                                c.lightsOn(7);
                                 break;
                             case 4:
-                                c.LightsOn(8);
+                                c.lightsOn(8);
                                 break;
                         }
                         if(in) {

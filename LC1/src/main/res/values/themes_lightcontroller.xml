@@ -3,7 +3,8 @@
 <!-- Generated with http://android-holo-colors.com -->
 <resources xmlns:android="http://schemas.android.com/apk/res/android">
     <style name="LightController" parent="LightController.Base"/>
-    <style name="LightController.Base" parent="Theme.AppCompat">
+
+    <style name="LightController.Base" parent="Theme.AppCompat.Light.DarkActionBar">
         <item name="colorPrimaryDark">@android:color/transparent</item>
         <item name="android:windowNoTitle">true</item>
         <item name="windowActionBar">false</item>

@@ -126,7 +126,7 @@ public class controlWidgetConfig extends ActionBarActivity {
                 PendingIntent pendingIntent = PendingIntent.getActivity(getBaseContext(), 0, intent, 0);
                 views.setOnClickPendingIntent(R.id.settings, pendingIntent);
 
-                intent = new Intent(getBaseContext(), controller.class);
+                intent = new Intent(getBaseContext(), MainActivity.class);
                 pendingIntent = PendingIntent.getActivity(getBaseContext(), 0, intent, 0);
                 views.setOnClickPendingIntent(R.id.app, pendingIntent);
 

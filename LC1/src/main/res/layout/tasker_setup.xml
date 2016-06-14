@@ -107,8 +107,7 @@
                 android:id="@+id/brightness"
                 android:layout_gravity="center_horizontal"
                 android:max="20"
-                android:progress="20"
-                style="@style/SeekBarLightController" />
+                android:progress="20" />
         </LinearLayout>
 
     </LinearLayout>

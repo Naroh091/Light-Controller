@@ -15,12 +15,9 @@ package tv.piratemedia.lightcontroler.receiver;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.StrictMode;
-import android.preference.PreferenceManager;
 import android.util.Log;
-import android.widget.Toast;
 
 import java.util.Locale;
 
@@ -87,13 +84,13 @@ public final class FireReceiver extends BroadcastReceiver
             for (int i = in.length - 1; i >= 0; i--) {
                 TaskerCommand.TASKTYPE task = TaskerCommand.TASKTYPE.values()[Integer.parseInt(in[i][1])];
                 if (task == TaskerCommand.TASKTYPE.ON) {
-                    Controller.LightsOn(Integer.parseInt(in[i][0]));
+                    Controller.lightsOn(Integer.parseInt(in[i][0]));
                 }
                 else if (task == TaskerCommand.TASKTYPE.OFF) {
-                    Controller.LightsOff(Integer.parseInt(in[i][0]));
+                    Controller.lightsOff(Integer.parseInt(in[i][0]));
                 }
                 else if (task == TaskerCommand.TASKTYPE.WHITE) {
-                    Controller.setToWhite(Integer.parseInt(in[i][0]));
+                    Controller.turnOnWhite(Integer.parseInt(in[i][0]));
                 }
                 else if (task == TaskerCommand.TASKTYPE.COLOR) {
                     Controller.setColor(Integer.parseInt(in[i][0]), Integer.parseInt(in[i][2]));

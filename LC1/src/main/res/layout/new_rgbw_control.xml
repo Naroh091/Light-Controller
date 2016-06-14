@@ -1,0 +1,98 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    tools:context="tv.piratemedia.lightcontroler.fragments.RGBWFragment"
+    android:id="@+id/mainlayout"
+    android:orientation="vertical">
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="24dp">
+
+        <Switch
+            android:text="@string/lights"
+            android:layout_height="wrap_content"
+            android:id="@+id/general_switch"
+            android:layout_weight="1"
+            android:padding="10dp"
+            android:layout_width="wrap_content" />
+
+        <ToggleButton
+            android:text="@string/white"
+            android:layout_width="20dp"
+            android:layout_height="wrap_content"
+            android:id="@+id/white_toggle"
+            android:layout_weight="1" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:visibility="gone">
+
+        <EditText
+            android:layout_width="122dp"
+            android:layout_height="wrap_content"
+            android:inputType="number"
+            android:ems="10"
+            android:id="@+id/codea" />
+
+        <EditText
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:inputType="number"
+            android:ems="10"
+            android:id="@+id/codeb"
+            android:layout_weight="1" />
+
+        <EditText
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:inputType="number"
+            android:ems="10"
+            android:id="@+id/codec"
+            android:layout_weight="1" />
+    </LinearLayout>
+
+    <Button
+        android:text="Send"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:visibility="gone"
+        android:id="@+id/send" />
+
+    <com.larswerkman.holocolorpicker.ColorPicker
+        android:id="@+id/color"
+        android:layout_width="wrap_content"
+        android:layout_height="0dp"
+        android:clickable="true"
+        android:layout_weight="4"
+        android:layout_gravity="center" />
+
+    <SeekBar
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:max="27"
+        android:id="@+id/brightness" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingTop="16dp"
+        android:paddingLeft="26dp"
+        android:paddingRight="26dp">
+
+        <Switch
+            android:text="Candle mode"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/candle_switch"
+            android:layout_weight="1" />
+    </LinearLayout>
+
+</LinearLayout>

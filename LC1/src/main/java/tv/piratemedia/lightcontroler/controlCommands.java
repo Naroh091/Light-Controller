@@ -26,62 +26,59 @@ import android.util.Log;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Random;
 import java.util.concurrent.TimeUnit;
 
-public class controlCommands {
-    public static final int DISCOVERED_DEVICE = 111;
-    public static final int LIST_WIFI_NETWORKS = 802;
-    public static final int COMMAND_SUCCESS = 222;
+public class controlCommands implements Serializable {
+    static final int DISCOVERED_DEVICE = 111;
+    static final int LIST_WIFI_NETWORKS = 802;
+    static final int COMMAND_SUCCESS = 222;
 
     private UDPConnection UDPC;
-    public int LastOn = -1;
-    public boolean sleeping = false;
+    private int LastOn = -1;
+    private boolean sleeping = false;
     private Context mContext;
     private boolean measuring = false;
     private boolean candling = false;
     public final int[] tolerance = new int[1];
-    public SaveState appState = null;
 
     public controlCommands(Context context, Handler handler) {
         UDPC = new UDPConnection(context, handler);
         mContext = context;
         tolerance[0] = 25000;
-        appState = new SaveState(context);
     }
 
-    public void killUDPC() {
+    void killUDPC() {
         UDPC.destroyUDPC();
     }
 
-    public void discover() {
+    void discover() {
         Log.d("discovery", "Start Discovery");
         try {
             UDPC.sendAdminMessage("AT+Q\r".getBytes());
             Thread.sleep(100);
             UDPC.sendAdminMessage("Link_Wi-Fi".getBytes());
-        } catch (IOException e) {
+        } catch (IOException | InterruptedException e) {
             e.printStackTrace();
             //add alert to tell user we cant send command
-        } catch(InterruptedException e) {
-            e.printStackTrace();
         }
     }
 
-    public void getWifiNetworks() {
+    void getWifiNetworks() {
         try {
             UDPC.sendAdminMessage("+ok".getBytes(), true);
             Thread.sleep(100);
             UDPC.sendAdminMessage("AT+WSCAN\r\n".getBytes(), true);
-        } catch (IOException e) {
+        } catch (IOException | InterruptedException e) {
             e.printStackTrace();
             //add alert to tell user we cant send command
-        } catch(InterruptedException e) {
-            e.printStackTrace();
         }
     }
 
-    public void setWifiNetwork(String SSID, String Security, String Type, String Password) {
+    void setWifiNetwork(String SSID, String Security, String Type, String Password) {
         try {
             UDPC.sendAdminMessage("+ok".getBytes(), true);
             Thread.sleep(100);
@@ -92,15 +89,13 @@ public class controlCommands {
             UDPC.sendAdminMessage("AT+WMODE=STA\r\n".getBytes(), true);
             Thread.sleep(100);
             UDPC.sendAdminMessage("AT+Z\r\n".getBytes(), true);
-        } catch (IOException e) {
+        } catch (IOException | InterruptedException e) {
             e.printStackTrace();
             //add alert to tell user we cant send command
-        } catch(InterruptedException e) {
-            e.printStackTrace();
         }
     }
 
-    public void setWifiNetwork(String SSID) {
+    void setWifiNetwork(String SSID) {
         try {
             UDPC.sendAdminMessage("+ok".getBytes(), true);
             Thread.sleep(100);
@@ -109,15 +104,13 @@ public class controlCommands {
             UDPC.sendAdminMessage("AT+WMODE=STA\r\n".getBytes(), true);
             Thread.sleep(100);
             UDPC.sendAdminMessage("AT+Z\r\n".getBytes(), true);
-        } catch (IOException e) {
+        } catch (IOException | InterruptedException e) {
             e.printStackTrace();
             //add alert to tell user we cant send command
-        } catch(InterruptedException e) {
-            e.printStackTrace();
         }
     }
 
-    public void LightsOn(int zone) {
+    public void lightsOn(int zone) {
         byte[] messageBA = new byte[3];
         switch(zone) {
             case 0:
@@ -165,10 +158,9 @@ public class controlCommands {
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
-        appState.setOnOff(zone, true);
     }
 
-    public void LightsOff(int zone) {
+    public void lightsOff(int zone) {
         byte[] messageBA = new byte[3];
         switch(zone) {
             case 0:
@@ -210,10 +202,9 @@ public class controlCommands {
             e.printStackTrace();
             //add alert to tell user we cant send command
         }
-        appState.setOnOff(zone, false);
     }
 
-    public void setToWhite(int zone) {
+    public void turnOnWhite(int zone) {
         byte[] messageBA = new byte[3];
         switch(zone) {
             case 0:
@@ -240,7 +231,6 @@ public class controlCommands {
             e.printStackTrace();
             //add alert to tell user we cant send command
         }
-        appState.removeColor(zone);
     }
 
     public void setBrightnessUpOne() {
@@ -296,7 +286,7 @@ public class controlCommands {
     }
 
     public void setToFull(int zone) {
-        LightsOn(zone);
+        lightsOn(zone);
         try {
             Thread.sleep(100);
         } catch (InterruptedException e) {
@@ -330,8 +320,21 @@ public class controlCommands {
         }
     }
 
+    public void sendCustomCode(int first, int second, int third){
+        byte[] messageBA = new byte[3];
+        messageBA[0] = (byte)first;
+        messageBA[1] = (byte)second;
+        messageBA[2] = (byte)third;
+        try {
+            UDPC.sendMessage(messageBA);
+        } catch (IOException e) {
+            e.printStackTrace();
+            //add alert to tell user we cant send command
+        }
+    }
+
     public void setColorToNight(int zone) {
-        LightsOff(zone);
+        lightsOff(zone);
         try {
             Thread.sleep(100);
         } catch (InterruptedException e) {
@@ -365,7 +368,7 @@ public class controlCommands {
         }
     }
     public void setToNight(int zone) {
-        LightsOn(zone);
+        lightsOn(zone);
         try {
             Thread.sleep(100);
         } catch (InterruptedException e) {
@@ -399,60 +402,22 @@ public class controlCommands {
         }
     }
 
-    private int[] values = {2,3,4,5,8,9,10,11,13,14,15,16,17,18,19,20,21,23,24,25};
-    private int LastBrightness = 20;
-    private int LastZone = 0;
-    private boolean finalSend = false;
-    public boolean touching = false;
     public void setBrightness(int zoneid, int brightness) {
-        if(brightness >= values.length) {
-            brightness = values.length - 1;
-        }
-        if(brightness < 0) {
-            brightness = 0;
-        }
-        if(!sleeping) {
-            LightsOn(zoneid);
+
+        if (!sleeping) {
+
             byte[] messageBA = new byte[3];
             messageBA[0] = 78;
-            messageBA[1] = (byte)(values[brightness]);
+            messageBA[1] = (byte) brightness;
             messageBA[2] = 85;
+
             try {
                 UDPC.sendMessage(messageBA);
             } catch (IOException e) {
                 e.printStackTrace();
                 //add alert to tell user we cant send command
             }
-            appState.setBrighness(zoneid, brightness);
-            if(finalSend) {
-                finalSend = false;
-            } else {
-                sleeping = true;
-                startTimeout();
-            }
         }
-        LastBrightness = brightness;
-        LastZone = zoneid;
-    }
-
-    public void startTimeout() {
-        Thread thread = new Thread()
-        {
-            @Override
-            public void run() {
-                try {
-                    sleep(100);
-                    sleeping = false;
-                    if(!touching) {
-                        finalSend = true;
-                        setBrightness(LastZone, LastBrightness);
-                    }
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
-                }
-            }
-        };
-        thread.start();
     }
 
     public void setColor(int zoneid, int color) {
@@ -462,7 +427,7 @@ public class controlCommands {
             Float deg = (float) Math.toRadians(-colors[0]);
             Float dec = (deg/((float)Math.PI*2f))*255f;
             if(LastOn != zoneid) {
-                LightsOn(zoneid);
+                lightsOn(zoneid);
             }
             //rotation compensation
             dec = dec + 175;
@@ -480,15 +445,11 @@ public class controlCommands {
                 e.printStackTrace();
                 //add alert to tell user we cant send command
             }
-            appState.setColor(zoneid, color);
-            touching = true;
-            sleeping = true;
-            startTimeout();
         }
     }
 
     public void toggleDiscoMode(int zoneid) {
-        LightsOn(zoneid);
+        lightsOn(zoneid);
         byte[] messageBA = new byte[3];
         messageBA[0] = 77;
         messageBA[1] = 0;
@@ -527,45 +488,35 @@ public class controlCommands {
         }
     }
 
-    private String startCandleColor;
-    private String endCandleColor;
     public void startCandleMode(final int zone) {
         candling = true;
-        startCandleColor = "fffc00";
-        endCandleColor = "ff4e00";
 
-        final int startInt = Integer.parseInt(startCandleColor.substring(2,4),16);
-        final int endInt = Integer.parseInt(endCandleColor.substring(2,4),16);
+        final List<String> candleColors = new ArrayList<>();
+        candleColors.add("#E8581A");
+        candleColors.add("#ce981c");
+        candleColors.add("#FF9800");
+        candleColors.add("#caae20");
+        candleColors.add("#d4980c");
+        candleColors.add("#e2770b");
+        candleColors.add("#da950b");
+        candleColors.add("#f7ad01");
+        candleColors.add("#ce3b06");
 
         Thread thread = new Thread()
         {
             @Override
             public void run() {
                 try {
-                    int i = 0;
                     while(candling) {
                         Random r = new Random();
-                        String newColor = "#ff";
-                        if(endInt - startInt == 0) {
-                            newColor += Integer.toHexString(startInt);
-                        } else {
-                            if(endInt - startInt < 0) {
-                                newColor += Integer.toHexString(r.nextInt(startInt - (endInt - startInt)));
-                            } else {
-                                newColor += Integer.toHexString(r.nextInt(endInt - startInt) + startInt);
-                            }
-                        }
-                        if(newColor.length() < 5) {
-                            newColor+="f";
-                        }
-                        newColor += "00";
-
+                        String color = candleColors.get(r.nextInt(9));
                         try {
-                            setColor(zone, Color.parseColor(newColor));
-                        } catch(IllegalArgumentException e) {
-
+                            setColor(zone, Color.parseColor(color));
+                            setBrightness(zone, r.nextInt(8) + 20);
+                        } catch(IllegalArgumentException ignored) {
                         }
-                        int sleedTime = r.nextInt(150) + 50;
+
+                        int sleedTime = r.nextInt(250) + 90;
                         TimeUnit.MILLISECONDS.sleep(sleedTime);
                     }
                 } catch (InterruptedException e) {
@@ -583,6 +534,7 @@ public class controlCommands {
     private MediaRecorder mr;
     private FileOutputStream fd;
     private int[] strobeColors = new int[4];
+
     public void startMeasuringVol(final int zone) {
         strobeColors[0] = Color.parseColor("#FF7400");
         strobeColors[1] = Color.parseColor("#FFAA00");

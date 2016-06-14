@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <array name="candle_colors">
+        <item>#E8581A</item>
+        <item>#ce981c</item>
+        <item>#FF9800</item>
+        <item>#caae20</item>
+        <item>#d4980c</item>
+        <item>#e2770b</item>
+        <item>#da950b</item>
+        <item>#f7ad01</item>
+        <item>#ce3b06</item>
+    </array>
+
+</resources>

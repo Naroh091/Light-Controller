@@ -23,7 +23,8 @@ import java.util.List;
 
 import tv.piratemedia.lightcontroler.R;
 import tv.piratemedia.lightcontroler.controlCommands;
-import tv.piratemedia.lightcontroler.controller;
+import tv.piratemedia.lightcontroler.MainActivity;
+import tv.piratemedia.lightcontroler.helpers.SPHelper;
 
 public class DataLayerListenerService extends WearableListenerService {
     private static final String TAG = "DataLayer";
@@ -44,7 +45,7 @@ public class DataLayerListenerService extends WearableListenerService {
         super.onMessageReceived(messageEvent);
         // if ("/MESSAGE".equals(messageEvent.getPath())) {
         // Create a new controller instance so we can send commands to the wifi controller
-        controller mCont = new controller();
+        MainActivity mCont = new MainActivity();
         controlCommands cmd;
         cmd = new controlCommands(this, mCont.mHandler);
         //A switch to find out what message was sent from the watch
@@ -93,29 +94,29 @@ public class DataLayerListenerService extends WearableListenerService {
                 case "on":
                     if(zone > 4) {
                         //white
-                        cmd.LightsOn(zone);
-                        cmd.appState.setOnOff(zone, true);
+                        cmd.lightsOn(zone);
+                        SPHelper.putOnState(this, zone, true);
                     } else {
                         //color
-                        cmd.LightsOn(zone);
-                        cmd.appState.setOnOff(zone, true);
+                        cmd.lightsOn(zone);
+                        SPHelper.putOnState(this, zone, true);
                     }
                     break;
                 case "off":
                     if(zone > 4) {
                         //white
-                        cmd.LightsOff(zone);
-                        cmd.appState.setOnOff(zone, false);
+                        cmd.lightsOff(zone);
+                        SPHelper.putOnState(this, zone, false);
                     } else {
                         //color
-                        cmd.LightsOff(zone);
-                        cmd.appState.setOnOff(zone, false);
+                        cmd.lightsOff(zone);
+                        SPHelper.putOnState(this, zone, false);
                     }
                     break;
                 case "level":
-                    cmd.appState.setOnOff(zone, true);
+                    SPHelper.putOnState(this, zone, true);
                     if(zone > 4) {
-                        cmd.LightsOn(zone);
+                        cmd.lightsOn(zone);
                         if(Integer.parseInt(path.getPathSegments().get(2)) == 1) {
                             cmd.setBrightnessUpOne();
                             Log.d("wear", "up one");
