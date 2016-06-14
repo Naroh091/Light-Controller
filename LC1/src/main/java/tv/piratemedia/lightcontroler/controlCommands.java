@@ -422,6 +422,7 @@ public class controlCommands implements Serializable {
 
     public void setColor(int zoneid, int color) {
         if(!sleeping) {
+
             float[] colors = new float[3];
             Color.colorToHSV(color, colors);
             Float deg = (float) Math.toRadians(-colors[0]);
@@ -429,6 +430,7 @@ public class controlCommands implements Serializable {
             if(LastOn != zoneid) {
                 lightsOn(zoneid);
             }
+
             //rotation compensation
             dec = dec + 175;
             if(dec > 255) {
@@ -437,7 +439,7 @@ public class controlCommands implements Serializable {
 
             byte[] messageBA = new byte[3];
             messageBA[0] = 64;
-            messageBA[1] = (byte)dec.intValue();
+            messageBA[1] = (byte) dec.intValue();
             messageBA[2] = 85;
             try {
                 UDPC.sendMessage(messageBA);
@@ -492,15 +494,13 @@ public class controlCommands implements Serializable {
         candling = true;
 
         final List<String> candleColors = new ArrayList<>();
-        candleColors.add("#E8581A");
-        candleColors.add("#ce981c");
-        candleColors.add("#FF9800");
-        candleColors.add("#caae20");
-        candleColors.add("#d4980c");
+
+        candleColors.add("#ec8f32");
+        candleColors.add("#d4700a");
+        candleColors.add("#da8b24");
         candleColors.add("#e2770b");
-        candleColors.add("#da950b");
-        candleColors.add("#f7ad01");
-        candleColors.add("#ce3b06");
+        candleColors.add("#d47210");
+        candleColors.add("#e2850b");
 
         Thread thread = new Thread()
         {
@@ -509,9 +509,9 @@ public class controlCommands implements Serializable {
                 try {
                     while(candling) {
                         Random r = new Random();
-                        String color = candleColors.get(r.nextInt(9));
+                        int color = Color.parseColor(candleColors.get(r.nextInt(6)));
                         try {
-                            setColor(zone, Color.parseColor(color));
+                            setColor(zone, color);
                             setBrightness(zone, r.nextInt(8) + 20);
                         } catch(IllegalArgumentException ignored) {
                         }

@@ -4,6 +4,7 @@ import android.graphics.Color;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -160,6 +161,7 @@ public class RGBWFragment extends Fragment {
                 @Override
                 public void onColorChanged(int i) {
                     if (!disabled) {
+                        Log.e("COLOR", String.valueOf(i));
                         lightService.setColor(zone, i);
                         ((MainActivity) getActivity()).setActionbarColor(i);
                         SPHelper.putColor(getActivity(), zone, i);
