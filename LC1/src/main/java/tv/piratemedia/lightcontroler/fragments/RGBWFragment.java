@@ -4,7 +4,6 @@ import android.graphics.Color;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.v4.app.Fragment;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -88,6 +87,14 @@ public class RGBWFragment extends Fragment {
             brightness = (SeekBar) rootView.findViewById(R.id.brightness);
             candleMode = (Switch) rootView.findViewById(R.id.candle_switch);
 
+            generalOnOff.setChecked(SPHelper.getOnState(getActivity(), zone));
+            brightness.setProgress(SPHelper.getBrightness(getActivity(), zone));
+            int oldColor = SPHelper.getColor(getActivity(), zone);
+            color.setOldCenterColor(oldColor);
+            ((MainActivity) getActivity()).setActionbarColor(oldColor);
+
+
+
             // TODO remove
             final EditText codea = (EditText) rootView.findViewById(R.id.codea);
             final EditText codeb = (EditText) rootView.findViewById(R.id.codeb);
@@ -106,19 +113,6 @@ public class RGBWFragment extends Fragment {
             Spinner modeSpinner = (Spinner) rootView.findViewById(R.id.movement_modes);
             final LinearLayout modeContainer = (LinearLayout) rootView.findViewById(R.id.modes_container);
 
-            // Show modes
-//            ArrayAdapter<CharSequence> modeAdapter = ArrayAdapter.createFromResource(getActivity(), R.array.modes_array, android.R.layout.simple_spinner_item);
-//            modeAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-
-//            modeSpinner.setAdapter(modeAdapter);
-
-
-            generalOnOff.setChecked(SPHelper.getOnState(getActivity(), zone));
-
-            // Get the last known brightness
-
-            brightness.setProgress(SPHelper.getBrightness(getActivity(), zone));
-            color.setOldCenterColor(SPHelper.getColor(getActivity(), zone));
 
             (((MainActivity) getActivity())).setActionbarColor(SPHelper.getColor(getActivity(), zone));
 
@@ -130,6 +124,11 @@ public class RGBWFragment extends Fragment {
                     } else {
                         lightService.lightsOff(zone);
                         SPHelper.putOnState(getActivity(), zone, false);
+                        // Turn off modes
+                        if(candleMode.isChecked()) {
+                            lightService.stopCandleMode();
+                            candleMode.setChecked(false);
+                        }
                     }
                 }
             });
@@ -161,7 +160,8 @@ public class RGBWFragment extends Fragment {
                 @Override
                 public void onColorChanged(int i) {
                     if (!disabled) {
-                        Log.e("COLOR", String.valueOf(i));
+                        turnOnLights(zone);
+                        System.out.println();
                         lightService.setColor(zone, i);
                         ((MainActivity) getActivity()).setActionbarColor(i);
                         SPHelper.putColor(getActivity(), zone, i);

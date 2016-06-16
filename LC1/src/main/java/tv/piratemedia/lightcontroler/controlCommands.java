@@ -27,8 +27,6 @@ import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Random;
 import java.util.concurrent.TimeUnit;
 
@@ -493,15 +491,6 @@ public class controlCommands implements Serializable {
     public void startCandleMode(final int zone) {
         candling = true;
 
-        final List<String> candleColors = new ArrayList<>();
-
-        candleColors.add("#ec8f32");
-        candleColors.add("#d4700a");
-        candleColors.add("#da8b24");
-        candleColors.add("#e2770b");
-        candleColors.add("#d47210");
-        candleColors.add("#e2850b");
-
         Thread thread = new Thread()
         {
             @Override
@@ -509,15 +498,13 @@ public class controlCommands implements Serializable {
                 try {
                     while(candling) {
                         Random r = new Random();
-                        int color = Color.parseColor(candleColors.get(r.nextInt(6)));
                         try {
-                            setColor(zone, color);
                             setBrightness(zone, r.nextInt(8) + 20);
                         } catch(IllegalArgumentException ignored) {
                         }
 
-                        int sleedTime = r.nextInt(250) + 90;
-                        TimeUnit.MILLISECONDS.sleep(sleedTime);
+                        int sleepTime = r.nextInt(150);
+                        TimeUnit.MILLISECONDS.sleep(sleepTime);
                     }
                 } catch (InterruptedException e) {
                     e.printStackTrace();

@@ -1,11 +1,11 @@
 apply plugin: 'com.android.application'
 
 android {
-    compileSdkVersion 23
-    buildToolsVersion "23.0.3"
+    compileSdkVersion 24
+    buildToolsVersion "24"
     defaultConfig {
         minSdkVersion 14
-        targetSdkVersion 23
+        targetSdkVersion 24
         versionCode 1710
         versionName "1.7.1"
         multiDexEnabled true
@@ -22,10 +22,9 @@ android {
         dev {
             minSdkVersion 21
             applicationId 'tv.piratemedia.lightcontroler'
-            targetSdkVersion 23
+            targetSdkVersion 24
             versionCode 2000
             versionName '2.0'
-            versionNameSuffix 'dev'
         }
     }
 }
@@ -40,7 +39,7 @@ def playServices = true
 
 dependencies {
     compile fileTree(include: ['*.jar'], dir: 'libs')
-    compile 'com.android.support:appcompat-v7:23.4.0'
+    compile 'com.android.support:appcompat-v7:24.0.0'
     compile 'com.astuetz:pagerslidingtabstrip:1.0.1'
     compile('com.github.afollestad.material-dialogs:core:0.8.5.3@aar') {
         transitive = true
