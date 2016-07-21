@@ -61,13 +61,6 @@ public class RGBWFragment extends Fragment {
     public RGBWFragment() {
     }
 
-    private void turnOnLights(int zone){
-        lightService.lightsOn(zone);
-        SPHelper.putOnState(getActivity(), zone, true);
-        generalOnOff.setChecked(true);
-        SPHelper.putOnState(getActivity(), zone, true);
-    }
-
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
@@ -89,19 +82,8 @@ public class RGBWFragment extends Fragment {
 
             generalOnOff.setChecked(SPHelper.getOnState(getActivity(), zone));
             brightness.setProgress(SPHelper.getBrightness(getActivity(), zone));
-            int oldColor = SPHelper.getColor(getActivity(), zone);
-            color.setOldCenterColor(oldColor);
-            ((MainActivity) getActivity()).setActionbarColor(oldColor);
 
-
-
-            // TODO remove
-            final EditText codea = (EditText) rootView.findViewById(R.id.codea);
-            final EditText codeb = (EditText) rootView.findViewById(R.id.codeb);
-            final EditText codec = (EditText) rootView.findViewById(R.id.codec);
-
-
-            Button send = (Button) rootView.findViewById(R.id.send);
+            setColors();
 
             Button disco = (Button) rootView.findViewById(dplus);
 //            Button dplus = (Button) rootView.findViewById(dplus);
@@ -113,22 +95,13 @@ public class RGBWFragment extends Fragment {
             Spinner modeSpinner = (Spinner) rootView.findViewById(R.id.movement_modes);
             final LinearLayout modeContainer = (LinearLayout) rootView.findViewById(R.id.modes_container);
 
-
-            (((MainActivity) getActivity())).setActionbarColor(SPHelper.getColor(getActivity(), zone));
-
             generalOnOff.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
                 @Override
                 public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                     if (isChecked) {
                         turnOnLights(zone);
                     } else {
-                        lightService.lightsOff(zone);
-                        SPHelper.putOnState(getActivity(), zone, false);
-                        // Turn off modes
-                        if(candleMode.isChecked()) {
-                            lightService.stopCandleMode();
-                            candleMode.setChecked(false);
-                        }
+                        turnOffLights(zone);
                     }
                 }
             });
@@ -144,13 +117,6 @@ public class RGBWFragment extends Fragment {
                         lightService.setColor(zone, SPHelper.getColor(getActivity(), zone));
                         ((MainActivity) getActivity()).setActionbarColor(SPHelper.getColor(getActivity(), zone));
                     }
-                }
-            });
-
-            send.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    lightService.sendCustomCode(Integer.parseInt(codea.getEditableText().toString()), Integer.parseInt(codeb.getEditableText().toString()), Integer.parseInt(codec.getEditableText().toString()));
                 }
             });
 
@@ -198,8 +164,6 @@ public class RGBWFragment extends Fragment {
                 }
             });
 
-
-//
 //
 //            if (micStarted) {
 //                toggleMic.setText(R.string.mic_stop_listening);
@@ -351,4 +315,35 @@ public class RGBWFragment extends Fragment {
             return cacheView;
         }
     }
+
+    private void turnOnLights(int zone){
+        lightService.lightsOn(zone);
+        SPHelper.putOnState(getActivity(), zone, true);
+        generalOnOff.setChecked(true);
+        SPHelper.putOnState(getActivity(), zone, true);
+        setColors();
+    }
+
+    private void turnOffLights(int zone){
+        lightService.lightsOff(zone);
+        SPHelper.putOnState(getActivity(), zone, false);
+        ((MainActivity) getActivity()).setActionbarColor(Color.DKGRAY);
+
+        // Turn off modes
+        if(candleMode.isChecked()) {
+            lightService.stopCandleMode();
+            candleMode.setChecked(false);
+        }
+    }
+
+    private void setColors(){
+        int oldColor = SPHelper.getColor(getActivity(), zone);
+        if(oldColor == 0) {
+            oldColor = Color.DKGRAY;
+            SPHelper.putColor(getActivity(), zone, Color.DKGRAY);
+        }
+        color.setOldCenterColor(oldColor);
+        ((MainActivity) getActivity()).setActionbarColor(oldColor);
+    };
+
 }

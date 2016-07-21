@@ -30,42 +30,6 @@
 
     </LinearLayout>
 
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:visibility="gone">
-
-        <EditText
-            android:layout_width="122dp"
-            android:layout_height="wrap_content"
-            android:inputType="number"
-            android:ems="10"
-            android:id="@+id/codea" />
-
-        <EditText
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:inputType="number"
-            android:ems="10"
-            android:id="@+id/codeb"
-            android:layout_weight="1" />
-
-        <EditText
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:inputType="number"
-            android:ems="10"
-            android:id="@+id/codec"
-            android:layout_weight="1" />
-    </LinearLayout>
-
-    <Button
-        android:text="Send"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:visibility="gone"
-        android:id="@+id/send" />
-
     <com.larswerkman.holocolorpicker.ColorPicker
         android:id="@+id/color"
         android:layout_width="wrap_content"
@@ -88,10 +52,22 @@
         android:paddingRight="26dp">
 
         <Switch
-            android:text="Candle mode"
+            android:text="@string/candle_mode"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:id="@+id/candle_switch"
+            android:layout_weight="1" />
+
+        <Space
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1" />
+
+        <Switch
+            android:text="Disco mode"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/switch1"
             android:layout_weight="1" />
     </LinearLayout>
 

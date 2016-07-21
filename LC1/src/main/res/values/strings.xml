@@ -72,21 +72,14 @@
 
     <string name="add_widget">Add widget</string>
 
-    <string-array name="modes_array">
-        <item>Disco Mode</item>
-        <item>Music Mode</item>
-        <item>Candle Mode</item>
-    </string-array>
-
     <string name="title_activity_alarm_preferences">Alarms</string>
     <string name="mic_stop_listening">Stop Listening</string>
     <string name="mic_start_listening">Start Listening</string>
-    <string name="candle_mode_stop">Stop Candle Mode</string>
-    <string name="candle_mode_start">Start Candle Mode</string>
     <string name="all_lights">All lights</string>
     <string name="rgb">RGB</string>
     <string name="w">W</string>
     <string name="lights">Lights</string>
     <string name="white">White</string>
+    <string name="candle_mode">Candle mode</string>
 
 </resources>
