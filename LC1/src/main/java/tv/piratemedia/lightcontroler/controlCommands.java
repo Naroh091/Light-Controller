@@ -158,7 +158,17 @@ public class controlCommands implements Serializable {
         }
     }
 
-    public void lightsOff(int zone) {
+    public void globalOn() {
+        LightsOn(0);
+        try {
+            Thread.sleep(100);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+        LightsOn(5);
+    }
+
+    public void LightsOff(int zone) {
         byte[] messageBA = new byte[3];
         switch(zone) {
             case 0:
@@ -200,6 +210,16 @@ public class controlCommands implements Serializable {
             e.printStackTrace();
             //add alert to tell user we cant send command
         }
+    }
+
+    public void globalOff() {
+        LightsOff(0);
+        try {
+            Thread.sleep(100);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+        LightsOff(5);
     }
 
     public void turnOnWhite(int zone) {

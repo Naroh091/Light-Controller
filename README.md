@@ -1,7 +1,11 @@
 Light Controller
 ================
 
-![Promo Image](promo.png)
+![Promo Image](assets/promo.png)
+
+Build Status
+------------
+[![Build Status](https://travis-ci.org/eliotstocker/Light-Controller.svg?branch=master)](https://travis-ci.org/eliotstocker/Light-Controller)
 
 Description
 -----------
