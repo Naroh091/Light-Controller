@@ -170,7 +170,7 @@ public class controlWidgetProvider extends AppWidgetProvider {
             PendingIntent pendingIntent = PendingIntent.getActivity(context, 0, intent, 0);
             remoteViews.setOnClickPendingIntent(R.id.settings, pendingIntent);
 
-            intent = new Intent(context, controller.class);
+            intent = new Intent(context, MainActivity.class);
             pendingIntent = PendingIntent.getActivity(context, 0, intent, 0);
             remoteViews.setOnClickPendingIntent(R.id.app, pendingIntent);
 
@@ -260,9 +260,9 @@ public class controlWidgetProvider extends AppWidgetProvider {
                 } else {
                     int zone = Integer.parseInt(data.getScheme());
                     if (buttonId == LIGHT_ON) {
-                        Controller.LightsOn(zone);
+                        Controller.lightsOn(zone);
                     } else if (buttonId == LIGHT_OFF) {
-                        Controller.LightsOff(zone);
+                        Controller.lightsOff(zone);
                     }
                 }
             } else {

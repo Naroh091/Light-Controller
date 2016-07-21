@@ -6,8 +6,10 @@ import com.getpebble.android.kit.PebbleKit;
 import com.getpebble.android.kit.PebbleKit.PebbleDataReceiver;
 import com.getpebble.android.kit.util.PebbleDictionary;
 import java.util.UUID;
+
+import tv.piratemedia.lightcontroler.MainActivity;
 import tv.piratemedia.lightcontroler.controlCommands;
-import tv.piratemedia.lightcontroler.controller;
+
 
 /*
 created by mrwhale 18/06/2016
@@ -43,7 +45,7 @@ Pebble related activities. Pass through context, and data receiver, so we can th
         //TODO probably should put a if statement to check if pebble is conncted/if we are on the right wifi, so we dont do any work we done need to
         // Create a new receiver to get AppMessages from the C app
         // Create a new controller instance so we can send commands to the wifi controller
-        final controller mCont = new controller();
+        final MainActivity mCont = new MainActivity();
         final controlCommands contCmd;
         contCmd = new controlCommands(ctx, mCont.mHandler);
 
@@ -66,13 +68,11 @@ Pebble related activities. Pass through context, and data receiver, so we can th
                     switch(cmd){
                         case 0:
                             //Turning off
-                            contCmd.LightsOff(zone);
-                            contCmd.appState.setOnOff(zone, false);
+                            contCmd.lightsOff(zone);
                             break;
                         case 1:
                             //Turning on
-                            contCmd.LightsOn(zone);
-                            contCmd.appState.setOnOff(zone,true);
+                            contCmd.lightsOn(zone);
                             break;
                     }
                     /* old switch statement

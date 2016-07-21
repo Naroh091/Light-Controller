@@ -159,16 +159,16 @@ public class controlCommands implements Serializable {
     }
 
     public void globalOn() {
-        LightsOn(0);
+        lightsOn(0);
         try {
             Thread.sleep(100);
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
-        LightsOn(5);
+        lightsOn(5);
     }
 
-    public void LightsOff(int zone) {
+    public void lightsOff(int zone) {
         byte[] messageBA = new byte[3];
         switch(zone) {
             case 0:
@@ -213,13 +213,13 @@ public class controlCommands implements Serializable {
     }
 
     public void globalOff() {
-        LightsOff(0);
+        lightsOff(0);
         try {
             Thread.sleep(100);
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
-        LightsOff(5);
+        lightsOff(5);
     }
 
     public void turnOnWhite(int zone) {

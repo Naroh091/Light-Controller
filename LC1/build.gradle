@@ -52,6 +52,7 @@ dependencies {
     compile project(':circularseekbar')
     compile 'com.heinrichreimersoftware.materialdrawer:library:1.4.1'
     compile 'com.android.support:multidex:1.0.1'
-    compile 'com.android.support.constraint:constraint-layout:1.0.0-alpha3'
+    compile 'com.android.support.constraint:constraint-layout:1.0.0-alpha4'
     compile 'com.github.rtugeek:ColorSeekBar:1.0.2'
+    compile 'com.getpebble:pebblekit:3.0.0'
 }
